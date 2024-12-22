@@ -1,0 +1,49 @@
+- name: installing nginx
+  ansible.builtin.package:
+    name: nginx
+    state: present
+
+- name: starting the nginx
+  ansible.builtin.service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: Common role task assigned 
+  ansible.builtin.include_role:
+    name: common
+    tasks_from: app_conf_file
+
+
+# - name: Remove file (delete file)
+#   ansible.builtin.file:
+#     path: /usr/share/nginx/html/
+#     state: absent
+
+# - name: Download the source code
+#   ansible.builtin.get_url:
+#     url: https://expense-builds.s3.us-east-1.amazonaws.com/expense-frontend-v2.zip
+#     dest: /tmp/frontend.zip
+
+# - name: creating directory
+#   ansible.builtin.file:
+#     path: /usr/share/nginx/html
+#     state: directory
+
+# - name: Extracting frontend page
+#   ansible.builtin.unarchive:
+#     src: /tmp/frontend.zip
+#     dest: /usr/share/nginx/html/
+#     remote_src: yes
+
+- name: copying frontend config file.
+  ansible.builtin.template:
+    src: expense.conf.j2
+    dest: /etc/nginx/default.d/expense.conf
+  notify: 
+  - Restart Nginx   
+
+# - name: Restart nginx
+#   ansible.builtin.service:
+#     name: nginx
+#     state: restarted

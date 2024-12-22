@@ -1,0 +1,16 @@
+- name: Removing the directory
+  ansible.builtin.file:
+    path: "{{ path }}"
+    state: absent
+
+- name: creating the directory
+  ansible.builtin.file:
+    path: "{{ path }}"
+    state: directory
+
+- name: unziping from /tmp location into app location.
+  ansible.builtin.unarchive:
+    src: https://expense-builds.s3.us-east-1.amazonaws.com/expense-{{ component }}-v2.zip
+    dest: "{{ path }}"
+    remote_src: yes
+  
