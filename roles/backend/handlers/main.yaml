@@ -3,3 +3,4 @@
     name: backend
     state: restarted
     daemon_reload: true
+    enabled: true
